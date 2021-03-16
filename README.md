@@ -28,14 +28,33 @@ This app allows to communicate via chat.
 - Chatting - handles the connection establishment and message transferring
 - Chats - handles messages' and chats' storage and provision
 
+## Transport Layers
+
+All between-service communication should be implemented using gRPC.
+Public intefrace should be implemented using REST.
+
 ### Users
 
-// TODO
+This service should be able to register a user by email/password, authenticate,
+and authorize the user by a JWT.
+
+**Routes**
+
+- [ ] sign-up (REST)
+- [ ] sign-in (REST)
+- [ ] profile (gRPC) - returns a user's profile with the number of chats
 
 ### Chatting
 
-// TODO
+This service handles socket connections of users, receiving and routing their
+messages, and sends messages to queues to write them in a DB.
 
 ### Chats
 
-// TODO
+This service handles the chat's CRUD, and messages CRUD including syncing newly
+created messages from queues.
+
+**Routes**
+
+- [ ] chats (REST, gRPC)
+- [ ] chats/:chatId/messages (REST)
