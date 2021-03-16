@@ -27,6 +27,7 @@ This app allows to communicate via chat.
 - Users - handles user's registration, auth, and profile manipulations
 - Chatting - handles the connection establishment and message transferring
 - Chats - handles messages' and chats' storage and provision
+- ChatCLI - cli app to interact with the services
 
 ## Transport Layers
 
@@ -40,8 +41,8 @@ and authorize the user by a JWT.
 
 **Routes**
 
-- [ ] sign-up (REST)
-- [ ] sign-in (REST)
+- [ ] sign-up (gRCP)
+- [ ] sign-in (gRPC)
 - [ ] profile (gRPC) - returns a user's profile with the number of chats
 
 ### Chatting
@@ -56,5 +57,11 @@ created messages from queues.
 
 **Routes**
 
-- [ ] chats (REST, gRPC)
-- [ ] chats/:chatId/messages (REST)
+- [ ] chats (gRPC)
+- [ ] chats/:chatId/messages (gRPC)
+
+### ChatCLI
+
+This cli app should allow to interact with the system. The app should use gRPC
+to communicate with the services and send/receive messages over http2 connection
+weather it is gRPC or a custom implementation.
