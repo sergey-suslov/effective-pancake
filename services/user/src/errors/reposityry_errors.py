@@ -1,0 +1,2 @@
+class CouldNotCreateUser(Exception):
+    pass

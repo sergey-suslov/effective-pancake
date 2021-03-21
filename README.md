@@ -18,6 +18,7 @@ This app allows to communicate via chat.
 ## Technological Stack
 
 - Go
+- Python
 - Cassandra
 - Linkerd
 - Kafka

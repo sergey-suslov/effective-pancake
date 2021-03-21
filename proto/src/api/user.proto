@@ -1,0 +1,20 @@
+syntax = "proto3";
+package user;
+
+message JwtTokenPayload {
+  string token = 1;
+  int32 ttl = 2;
+}
+
+message SignUpRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message SignUpResponse {
+  JwtTokenPayload payload = 1;
+}
+
+service UserService {
+  rpc SignUp (SignUpRequest) returns (SignUpResponse);
+}

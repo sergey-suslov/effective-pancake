@@ -1,0 +1,7 @@
+syntax = "proto3";
+package common;
+
+message JwtPayload {
+  string userId = 1;
+  string email = 2;
+}
