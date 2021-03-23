@@ -19,6 +19,11 @@ class UserServiceStub(object):
                 request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
                 response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
                 )
+        self.SignIn = channel.unary_unary(
+                '/user.UserService/SignIn',
+                request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
+                response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+                )
 
 
 class UserServiceServicer(object):
@@ -30,11 +35,22 @@ class UserServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SignIn(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SignUp': grpc.unary_unary_rpc_method_handler(
                     servicer.SignUp,
+                    request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
+                    response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
+            ),
+            'SignIn': grpc.unary_unary_rpc_method_handler(
+                    servicer.SignIn,
                     request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
                     response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
             ),
@@ -60,6 +76,23 @@ class UserService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/SignUp',
+            src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
+            src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SignIn(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/user.UserService/SignIn',
             src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
             src_dot_api_dot_user__pb2.SignUpResponse.FromString,
             options, channel_credentials,

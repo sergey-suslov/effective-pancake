@@ -1,3 +1,4 @@
+from typing import Optional
 import uuid
 import hashlib
 from src.errors.reposityry_errors import CouldNotCreateUser
@@ -22,6 +23,17 @@ class UserRepository():
             raise CouldNotCreateUser()
 
         return UserEntity(**created)
+
+    def get_user_by_email_end_password(self, email: str, password: str) -> Optional[UserEntity]:
+        existing = self.client.db.users.find_one(
+            {"email": email})
+        if not existing:
+            return None
+        user = UserEntity(**existing)
+        hash = self._get_hash(password, user.salt)
+        if hash != user.hash:
+            return None
+        return user
 
     def _get_hash(self, password, salt):
         hash = hashlib.sha256()

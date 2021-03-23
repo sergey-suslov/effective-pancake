@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12src/api/user.proto\x12\x04user\"-\n\x0fJwtTokenPayload\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0b\n\x03ttl\x18\x02 \x01(\x05\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"8\n\x0eSignUpResponse\x12&\n\x07payload\x18\x01 \x01(\x0b\x32\x15.user.JwtTokenPayload2B\n\x0bUserService\x12\x33\n\x06SignUp\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponseb\x06proto3'
+  serialized_pb=b'\n\x12src/api/user.proto\x12\x04user\"-\n\x0fJwtTokenPayload\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0b\n\x03ttl\x18\x02 \x01(\x05\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"8\n\x0eSignUpResponse\x12&\n\x07payload\x18\x01 \x01(\x0b\x32\x15.user.JwtTokenPayload2w\n\x0bUserService\x12\x33\n\x06SignUp\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12\x33\n\x06SignIn\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponseb\x06proto3'
 )
 
 
@@ -171,12 +171,22 @@ _USERSERVICE = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=183,
-  serialized_end=249,
+  serialized_end=302,
   methods=[
   _descriptor.MethodDescriptor(
     name='SignUp',
     full_name='user.UserService.SignUp',
     index=0,
+    containing_service=None,
+    input_type=_SIGNUPREQUEST,
+    output_type=_SIGNUPRESPONSE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='SignIn',
+    full_name='user.UserService.SignIn',
+    index=1,
     containing_service=None,
     input_type=_SIGNUPREQUEST,
     output_type=_SIGNUPRESPONSE,

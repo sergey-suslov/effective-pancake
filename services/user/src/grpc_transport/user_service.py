@@ -13,3 +13,8 @@ class UserServiceGrpc(UserServiceServicer):
         (token, ttl) = self.user_service.sign_up(
             email=request.email, password=request.password)
         return SignUpResponse(payload=JwtTokenPayload(token=token, ttl=ttl))
+
+    def SignIn(self, request, context):
+        (token, ttl) = self.user_service.sign_in(
+            email=request.email, password=request.password)
+        return SignUpResponse(payload=JwtTokenPayload(token=token, ttl=ttl))

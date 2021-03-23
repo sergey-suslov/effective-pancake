@@ -17,4 +17,5 @@ message SignUpResponse {
 
 service UserService {
   rpc SignUp (SignUpRequest) returns (SignUpResponse);
+  rpc SignIn (SignUpRequest) returns (SignUpResponse);
 }

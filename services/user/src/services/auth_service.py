@@ -14,5 +14,11 @@ class AuthService():
         encoded, exp = self._encode_user_jwt(created)
         return str(encoded), exp
 
+    def sign_in(self, email: str, password: str) -> Tuple[str, int]:
+        user = self.user_repository.get_user_by_email_end_password(
+            email=email, password=password)
+        encoded, exp = self._encode_user_jwt(user)
+        return str(encoded), exp
+
     def _encode_user_jwt(self, user):
         return JwtService.encode_jwt({"email": user.email, "_id": str(user._id)})
