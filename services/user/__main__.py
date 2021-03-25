@@ -16,10 +16,12 @@ def serve():
     client = MongoClient('mongodb://%s:%s@127.0.0.1' %
                          (os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")))
     logging.info('Connected to DB')
+    jwt_service = JwtService('secret')
     user_repository = UserRepository(client=client)
-    auth_service = AuthService(user_repository=user_repository)
+    auth_service = AuthService(
+        user_repository=user_repository, jwt_service=jwt_service)
     server = grpc.server(futures.ThreadPoolExecutor(
-        max_workers=10), interceptors=[JwtAuthInterceptor(JwtService())])
+        max_workers=10), interceptors=[JwtAuthInterceptor(jwt_service=jwt_service)])
     add_UserServiceServicer_to_server(
         UserServiceGrpc(auth_service=auth_service), server)
     server.add_insecure_port('[::]:50051')

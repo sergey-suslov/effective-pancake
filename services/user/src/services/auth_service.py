@@ -5,8 +5,9 @@ from typing import Optional, Tuple
 
 
 class AuthService():
-    def __init__(self, user_repository: UserRepository) -> None:
+    def __init__(self, user_repository: UserRepository, jwt_service: JwtService) -> None:
         self.user_repository = user_repository
+        self.jwt_service = jwt_service
 
     def sign_up(self, email: str, password: str) -> Tuple[str, int]:
         created = self.user_repository.create_user(
@@ -28,4 +29,4 @@ class AuthService():
         return user
 
     def _encode_user_jwt(self, user: UserEntity):
-        return JwtService.encode_jwt({"email": user.email, "_id": str(user._id)})
+        return self.jwt_service.encode_jwt({"email": user.email, "_id": str(user._id)})

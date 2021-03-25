@@ -4,12 +4,14 @@ import jwt
 
 
 class JwtService():
-    @staticmethod
-    def encode_jwt(payload):
+
+    def __init__(self, secret: str) -> None:
+        self._secret = secret
+
+    def encode_jwt(self, payload):
         exp = datetime.datetime.fromtimestamp(time.time() + 500000)
         payload["exp"] = exp
-        return jwt.encode(payload, "secret", algorithm="HS256"), exp.microsecond * 1000
+        return jwt.encode(payload, self._secret, algorithm="HS256"), exp.microsecond * 1000
 
-    @staticmethod
-    def decode_jwt(payload):
-        return jwt.decode(payload, "secret", algorithms="HS256")
+    def decode_jwt(self, payload):
+        return jwt.decode(payload, self._secret, algorithms="HS256")
