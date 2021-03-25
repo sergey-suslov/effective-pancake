@@ -1,6 +1,8 @@
 syntax = "proto3";
 package user;
 
+import "src/api/common.proto";
+
 message JwtTokenPayload {
   string token = 1;
   int32 ttl = 2;
@@ -18,4 +20,5 @@ message SignUpResponse {
 service UserService {
   rpc SignUp (SignUpRequest) returns (SignUpResponse);
   rpc SignIn (SignUpRequest) returns (SignUpResponse);
+  rpc Profile (common.Empty) returns (common.UserProfile);
 }

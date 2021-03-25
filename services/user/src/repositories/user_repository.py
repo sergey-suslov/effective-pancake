@@ -1,6 +1,8 @@
 from typing import Optional
 import uuid
 import hashlib
+
+from bson.objectid import ObjectId
 from src.errors.reposityry_errors import CouldNotCreateUser
 from src.entities.user import UserEntity
 from pymongo import MongoClient
@@ -24,7 +26,15 @@ class UserRepository():
 
         return UserEntity(**created)
 
-    def get_user_by_email_end_password(self, email: str, password: str) -> Optional[UserEntity]:
+    def get_user_by_id(self, id: str) -> Optional[UserEntity]:
+        existing = self.client.db.users.find_one(
+            {"_id": ObjectId(id)}, projection=['email'])
+        if not existing:
+            return None
+        existing["_id"] = str(existing["_id"])
+        return UserEntity(**existing)
+
+    def get_user_by_email_and_password(self, email: str, password: str) -> Optional[UserEntity]:
         existing = self.client.db.users.find_one(
             {"email": email})
         if not existing:

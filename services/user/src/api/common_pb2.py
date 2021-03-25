@@ -19,10 +19,35 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14src/api/common.proto\x12\x06\x63ommon\"+\n\nJwtPayload\x12\x0e\n\x06userId\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\tb\x06proto3'
+  serialized_pb=b'\n\x14src/api/common.proto\x12\x06\x63ommon\"\x07\n\x05\x45mpty\"+\n\nJwtPayload\x12\x0e\n\x06userId\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\"(\n\x0bUserProfile\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\tb\x06proto3'
 )
 
 
+
+
+_EMPTY = _descriptor.Descriptor(
+  name='Empty',
+  full_name='common.Empty',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=32,
+  serialized_end=39,
+)
 
 
 _JWTPAYLOAD = _descriptor.Descriptor(
@@ -59,12 +84,60 @@ _JWTPAYLOAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=32,
-  serialized_end=75,
+  serialized_start=41,
+  serialized_end=84,
 )
 
+
+_USERPROFILE = _descriptor.Descriptor(
+  name='UserProfile',
+  full_name='common.UserProfile',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='common.UserProfile.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='email', full_name='common.UserProfile.email', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=86,
+  serialized_end=126,
+)
+
+DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['JwtPayload'] = _JWTPAYLOAD
+DESCRIPTOR.message_types_by_name['UserProfile'] = _USERPROFILE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
+  '__module__' : 'src.api.common_pb2'
+  # @@protoc_insertion_point(class_scope:common.Empty)
+  })
+_sym_db.RegisterMessage(Empty)
 
 JwtPayload = _reflection.GeneratedProtocolMessageType('JwtPayload', (_message.Message,), {
   'DESCRIPTOR' : _JWTPAYLOAD,
@@ -72,6 +145,13 @@ JwtPayload = _reflection.GeneratedProtocolMessageType('JwtPayload', (_message.Me
   # @@protoc_insertion_point(class_scope:common.JwtPayload)
   })
 _sym_db.RegisterMessage(JwtPayload)
+
+UserProfile = _reflection.GeneratedProtocolMessageType('UserProfile', (_message.Message,), {
+  'DESCRIPTOR' : _USERPROFILE,
+  '__module__' : 'src.api.common_pb2'
+  # @@protoc_insertion_point(class_scope:common.UserProfile)
+  })
+_sym_db.RegisterMessage(UserProfile)
 
 
 # @@protoc_insertion_point(module_scope)

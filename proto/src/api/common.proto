@@ -1,7 +1,14 @@
 syntax = "proto3";
 package common;
 
+message Empty {}
+
 message JwtPayload {
   string userId = 1;
+  string email = 2;
+}
+
+message UserProfile {
+  string id = 1;
   string email = 2;
 }

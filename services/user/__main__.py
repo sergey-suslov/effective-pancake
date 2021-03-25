@@ -3,6 +3,8 @@ import logging
 import os
 
 from pymongo.mongo_client import MongoClient
+from src.services.jwt_service import JwtService
+from src.grpc_transport.interceptors.auth import JwtAuthInterceptor
 from src.repositories.user_repository import UserRepository
 from src.services.auth_service import AuthService
 from src.grpc_transport.user_service import UserServiceGrpc
@@ -16,7 +18,8 @@ def serve():
     logging.info('Connected to DB')
     user_repository = UserRepository(client=client)
     auth_service = AuthService(user_repository=user_repository)
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.server(futures.ThreadPoolExecutor(
+        max_workers=10), interceptors=[JwtAuthInterceptor(JwtService())])
     add_UserServiceServicer_to_server(
         UserServiceGrpc(auth_service=auth_service), server)
     server.add_insecure_port('[::]:50051')

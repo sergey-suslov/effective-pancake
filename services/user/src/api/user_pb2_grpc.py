@@ -2,6 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+from src.api import common_pb2 as src_dot_api_dot_common__pb2
 from src.api import user_pb2 as src_dot_api_dot_user__pb2
 
 
@@ -24,6 +25,11 @@ class UserServiceStub(object):
                 request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
                 response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
                 )
+        self.Profile = channel.unary_unary(
+                '/user.UserService/Profile',
+                request_serializer=src_dot_api_dot_common__pb2.Empty.SerializeToString,
+                response_deserializer=src_dot_api_dot_common__pb2.UserProfile.FromString,
+                )
 
 
 class UserServiceServicer(object):
@@ -41,6 +47,12 @@ class UserServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Profile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -53,6 +65,11 @@ def add_UserServiceServicer_to_server(servicer, server):
                     servicer.SignIn,
                     request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
                     response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
+            ),
+            'Profile': grpc.unary_unary_rpc_method_handler(
+                    servicer.Profile,
+                    request_deserializer=src_dot_api_dot_common__pb2.Empty.FromString,
+                    response_serializer=src_dot_api_dot_common__pb2.UserProfile.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -95,5 +112,22 @@ class UserService(object):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/SignIn',
             src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
             src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Profile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/user.UserService/Profile',
+            src_dot_api_dot_common__pb2.Empty.SerializeToString,
+            src_dot_api_dot_common__pb2.UserProfile.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

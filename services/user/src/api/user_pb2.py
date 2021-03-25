@@ -11,6 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+from src.api import common_pb2 as src_dot_api_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,8 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12src/api/user.proto\x12\x04user\"-\n\x0fJwtTokenPayload\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0b\n\x03ttl\x18\x02 \x01(\x05\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"8\n\x0eSignUpResponse\x12&\n\x07payload\x18\x01 \x01(\x0b\x32\x15.user.JwtTokenPayload2w\n\x0bUserService\x12\x33\n\x06SignUp\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12\x33\n\x06SignIn\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponseb\x06proto3'
-)
+  serialized_pb=b'\n\x12src/api/user.proto\x12\x04user\x1a\x14src/api/common.proto\"-\n\x0fJwtTokenPayload\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0b\n\x03ttl\x18\x02 \x01(\x05\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"8\n\x0eSignUpResponse\x12&\n\x07payload\x18\x01 \x01(\x0b\x32\x15.user.JwtTokenPayload2\xa6\x01\n\x0bUserService\x12\x33\n\x06SignUp\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12\x33\n\x06SignIn\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12-\n\x07Profile\x12\r.common.Empty\x1a\x13.common.UserProfileb\x06proto3'
+  ,
+  dependencies=[src_dot_api_dot_common__pb2.DESCRIPTOR,])
 
 
 
@@ -59,8 +61,8 @@ _JWTTOKENPAYLOAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=28,
-  serialized_end=73,
+  serialized_start=50,
+  serialized_end=95,
 )
 
 
@@ -98,8 +100,8 @@ _SIGNUPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=75,
-  serialized_end=123,
+  serialized_start=97,
+  serialized_end=145,
 )
 
 
@@ -130,8 +132,8 @@ _SIGNUPRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=125,
-  serialized_end=181,
+  serialized_start=147,
+  serialized_end=203,
 )
 
 _SIGNUPRESPONSE.fields_by_name['payload'].message_type = _JWTTOKENPAYLOAD
@@ -170,8 +172,8 @@ _USERSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=183,
-  serialized_end=302,
+  serialized_start=206,
+  serialized_end=372,
   methods=[
   _descriptor.MethodDescriptor(
     name='SignUp',
@@ -190,6 +192,16 @@ _USERSERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_SIGNUPREQUEST,
     output_type=_SIGNUPRESPONSE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Profile',
+    full_name='user.UserService.Profile',
+    index=2,
+    containing_service=None,
+    input_type=src_dot_api_dot_common__pb2._EMPTY,
+    output_type=src_dot_api_dot_common__pb2._USERPROFILE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
