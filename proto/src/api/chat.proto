@@ -1,0 +1,18 @@
+syntax = "proto3";
+package user;
+
+option go_package = "/proto";
+
+import "src/api/common.proto";
+
+message GetAvailableUsersRequest {
+  common.Pagination pagination = 1;
+}
+
+message GetAvailableUsersResponse {
+  repeated common.UserProfile availableUsers = 1;
+}
+
+service ChatService {
+  rpc GetAvailableUsers (GetAvailableUsersRequest) returns (GetAvailableUsersResponse);
+}

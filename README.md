@@ -17,9 +17,11 @@ This app allows to communicate via chat.
 
 ## Technological Stack
 
-- Go
-- Python
+- Go (Chat)
+- Python (User)
+- Elexir (Chatting)
 - Cassandra
+- MongoDB
 - Linkerd
 - Kafka
 
