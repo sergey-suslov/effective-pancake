@@ -1,7 +1,7 @@
-from src.repositories.user_repository import UserRepository
-from src.entities.user import UserEntity
-from src.services.jwt_service import JwtService
-from typing import Optional, Tuple
+from repositories.user_repository import UserRepository
+from entities.user import UserEntity
+from services.jwt_service import JwtService
+from typing import List, Optional, Tuple
 
 
 class AuthService():
@@ -27,6 +27,10 @@ class AuthService():
         user = self.user_repository.get_user_by_id(
             id=id)
         return user
+
+    def get_users(self, page: int, per_page: int) -> List[UserEntity]:
+        users = self.user_repository.get_users(page=page, per_page=per_page)
+        return users
 
     def _encode_user_jwt(self, user: UserEntity):
         return self.jwt_service.encode_jwt({"email": user.email, "_id": str(user._id)})

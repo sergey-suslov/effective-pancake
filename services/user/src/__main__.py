@@ -3,12 +3,12 @@ import logging
 import os
 
 from pymongo.mongo_client import MongoClient
-from src.services.jwt_service import JwtService
-from src.grpc_transport.interceptors.auth import JwtAuthInterceptor
-from src.repositories.user_repository import UserRepository
-from src.services.auth_service import AuthService
-from src.grpc_transport.user_service import UserServiceGrpc
-from src.api.user_pb2_grpc import add_UserServiceServicer_to_server
+from services.jwt_service import JwtService
+from grpc_transport.interceptors.auth import JwtAuthInterceptor
+from repositories.user_repository import UserRepository
+from services.auth_service import AuthService
+from grpc_transport.user_service import UserServiceGrpc
+from api.user_pb2_grpc import add_UserServiceServicer_to_server
 import grpc
 
 

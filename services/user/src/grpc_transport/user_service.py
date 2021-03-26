@@ -1,9 +1,9 @@
-import logging
 import grpc
-from src.api.common_pb2 import UserProfile
-from src.services.auth_service import AuthService
-from src.api.user_pb2 import JwtTokenPayload, SignUpResponse
-from src.api.user_pb2_grpc import UserServiceServicer
+from grpc_transport.decorators.public_controller import PublicMethod
+from api.common_pb2 import UserProfile
+from services.auth_service import AuthService
+from api.user_pb2 import JwtTokenPayload, SignUpResponse, UsersInternalResponse
+from api.user_pb2_grpc import UserServiceServicer
 
 
 class UserServiceGrpc(UserServiceServicer):
@@ -17,6 +17,7 @@ class UserServiceGrpc(UserServiceServicer):
             email=request.email, password=request.password)
         return SignUpResponse(payload=JwtTokenPayload(token=token, ttl=ttl))
 
+    @PublicMethod
     def SignIn(self, request, context: grpc.ServicerContext):
         result = self.user_service.sign_in(
             email=request.email, password=request.password)
@@ -33,3 +34,8 @@ class UserServiceGrpc(UserServiceServicer):
         if not user:
             return None
         return UserProfile(id=user._id, email=user.email)
+
+    def UsersInternal(self, request, context):
+        users = self.user_service.get_users(
+            page=request.pagination.page or 0, per_page=request.pagination.perPage or 0)
+        return UsersInternalResponse(availableUsers=[UserProfile(id=user._id, email=user.email) for user in users])

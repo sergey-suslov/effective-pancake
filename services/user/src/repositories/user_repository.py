@@ -1,10 +1,11 @@
-from typing import Optional
+import logging
+from typing import List, Optional
 import uuid
 import hashlib
 
 from bson.objectid import ObjectId
-from src.errors.reposityry_errors import CouldNotCreateUser
-from src.entities.user import UserEntity
+from errors.reposityry_errors import CouldNotCreateUser
+from entities.user import UserEntity
 from pymongo import MongoClient
 
 
@@ -44,6 +45,12 @@ class UserRepository():
         if hash != user.hash:
             return None
         return user
+
+    def get_users(self, page: int, per_page: int) -> List[UserEntity]:
+        users = []
+        for user in self.client.db.users.find().skip(per_page*page).limit(per_page):
+            users.append(UserEntity(**user))
+        return users
 
     def _get_hash(self, password, salt):
         hash = hashlib.sha256()

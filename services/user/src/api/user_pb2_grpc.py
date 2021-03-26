@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from src.api import common_pb2 as src_dot_api_dot_common__pb2
-from src.api import user_pb2 as src_dot_api_dot_user__pb2
+from api import common_pb2 as src_dot_api_dot_common__pb2
+from api import user_pb2 as src_dot_api_dot_user__pb2
 
 
 class UserServiceStub(object):
@@ -16,20 +16,25 @@ class UserServiceStub(object):
             channel: A grpc.Channel.
         """
         self.SignUp = channel.unary_unary(
-                '/user.UserService/SignUp',
-                request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-                response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
-                )
+            '/user.UserService/SignUp',
+            request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
+            response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+        )
         self.SignIn = channel.unary_unary(
-                '/user.UserService/SignIn',
-                request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-                response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
-                )
+            '/user.UserService/SignIn',
+            request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
+            response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+        )
         self.Profile = channel.unary_unary(
-                '/user.UserService/Profile',
-                request_serializer=src_dot_api_dot_common__pb2.Empty.SerializeToString,
-                response_deserializer=src_dot_api_dot_common__pb2.UserProfile.FromString,
-                )
+            '/user.UserService/Profile',
+            request_serializer=src_dot_api_dot_common__pb2.Empty.SerializeToString,
+            response_deserializer=src_dot_api_dot_common__pb2.UserProfile.FromString,
+        )
+        self.UsersInternal = channel.unary_unary(
+            '/user.UserService/UsersInternal',
+            request_serializer=src_dot_api_dot_user__pb2.UsersInternalRequest.SerializeToString,
+            response_deserializer=src_dot_api_dot_user__pb2.UsersInternalResponse.FromString,
+        )
 
 
 class UserServiceServicer(object):
@@ -53,81 +58,110 @@ class UserServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UsersInternal(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SignUp': grpc.unary_unary_rpc_method_handler(
-                    servicer.SignUp,
-                    request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
-                    response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
-            ),
-            'SignIn': grpc.unary_unary_rpc_method_handler(
-                    servicer.SignIn,
-                    request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
-                    response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
-            ),
-            'Profile': grpc.unary_unary_rpc_method_handler(
-                    servicer.Profile,
-                    request_deserializer=src_dot_api_dot_common__pb2.Empty.FromString,
-                    response_serializer=src_dot_api_dot_common__pb2.UserProfile.SerializeToString,
-            ),
+        'SignUp': grpc.unary_unary_rpc_method_handler(
+            servicer.SignUp,
+            request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
+            response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
+        ),
+        'SignIn': grpc.unary_unary_rpc_method_handler(
+            servicer.SignIn,
+            request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
+            response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
+        ),
+        'Profile': grpc.unary_unary_rpc_method_handler(
+            servicer.Profile,
+            request_deserializer=src_dot_api_dot_common__pb2.Empty.FromString,
+            response_serializer=src_dot_api_dot_common__pb2.UserProfile.SerializeToString,
+        ),
+        'UsersInternal': grpc.unary_unary_rpc_method_handler(
+            servicer.UsersInternal,
+            request_deserializer=src_dot_api_dot_user__pb2.UsersInternalRequest.FromString,
+            response_serializer=src_dot_api_dot_user__pb2.UsersInternalResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'user.UserService', rpc_method_handlers)
+        'user.UserService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
-
  # This class is part of an EXPERIMENTAL API.
+
+
 class UserService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def SignUp(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+               target,
+               options=(),
+               channel_credentials=None,
+               call_credentials=None,
+               insecure=False,
+               compression=None,
+               wait_for_ready=None,
+               timeout=None,
+               metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/SignUp',
-            src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-            src_dot_api_dot_user__pb2.SignUpResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
+                                             src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def SignIn(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+               target,
+               options=(),
+               channel_credentials=None,
+               call_credentials=None,
+               insecure=False,
+               compression=None,
+               wait_for_ready=None,
+               timeout=None,
+               metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/SignIn',
-            src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-            src_dot_api_dot_user__pb2.SignUpResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
+                                             src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Profile(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+                target,
+                options=(),
+                channel_credentials=None,
+                call_credentials=None,
+                insecure=False,
+                compression=None,
+                wait_for_ready=None,
+                timeout=None,
+                metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/Profile',
-            src_dot_api_dot_common__pb2.Empty.SerializeToString,
-            src_dot_api_dot_common__pb2.UserProfile.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             src_dot_api_dot_common__pb2.Empty.SerializeToString,
+                                             src_dot_api_dot_common__pb2.UserProfile.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UsersInternal(request,
+                      target,
+                      options=(),
+                      channel_credentials=None,
+                      call_credentials=None,
+                      insecure=False,
+                      compression=None,
+                      wait_for_ready=None,
+                      timeout=None,
+                      metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/user.UserService/UsersInternal',
+                                             src_dot_api_dot_user__pb2.UsersInternalRequest.SerializeToString,
+                                             src_dot_api_dot_user__pb2.UsersInternalResponse.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
