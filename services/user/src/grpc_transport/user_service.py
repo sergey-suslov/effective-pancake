@@ -36,6 +36,7 @@ class UserServiceGrpc(UserServiceServicer):
             return None
         return UserProfile(id=user._id, email=user.email)
 
+    @PublicMethod
     def GetUserInternal(self, request, context):
         user = self.user_service.profile(
             id=request.id)

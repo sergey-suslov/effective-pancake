@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from src.api import common_pb2 as src_dot_api_dot_common__pb2
-from src.api import user_pb2 as src_dot_api_dot_user__pb2
+from api import common_pb2 as api_dot_common__pb2
+from api import user_pb2 as api_dot_user__pb2
 
 
 class UserServiceStub(object):
@@ -17,28 +17,28 @@ class UserServiceStub(object):
         """
         self.SignUp = channel.unary_unary(
                 '/user.UserService/SignUp',
-                request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-                response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+                request_serializer=api_dot_user__pb2.SignUpRequest.SerializeToString,
+                response_deserializer=api_dot_user__pb2.SignUpResponse.FromString,
                 )
         self.SignIn = channel.unary_unary(
                 '/user.UserService/SignIn',
-                request_serializer=src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-                response_deserializer=src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+                request_serializer=api_dot_user__pb2.SignUpRequest.SerializeToString,
+                response_deserializer=api_dot_user__pb2.SignUpResponse.FromString,
                 )
         self.Profile = channel.unary_unary(
                 '/user.UserService/Profile',
-                request_serializer=src_dot_api_dot_common__pb2.Empty.SerializeToString,
-                response_deserializer=src_dot_api_dot_common__pb2.UserProfile.FromString,
+                request_serializer=api_dot_common__pb2.Empty.SerializeToString,
+                response_deserializer=api_dot_common__pb2.UserProfile.FromString,
                 )
         self.GetUserInternal = channel.unary_unary(
                 '/user.UserService/GetUserInternal',
-                request_serializer=src_dot_api_dot_common__pb2.ById.SerializeToString,
-                response_deserializer=src_dot_api_dot_common__pb2.UserProfile.FromString,
+                request_serializer=api_dot_common__pb2.ById.SerializeToString,
+                response_deserializer=api_dot_common__pb2.UserProfile.FromString,
                 )
         self.UsersInternal = channel.unary_unary(
                 '/user.UserService/UsersInternal',
-                request_serializer=src_dot_api_dot_user__pb2.UsersInternalRequest.SerializeToString,
-                response_deserializer=src_dot_api_dot_user__pb2.UsersInternalResponse.FromString,
+                request_serializer=api_dot_user__pb2.UsersInternalRequest.SerializeToString,
+                response_deserializer=api_dot_user__pb2.UsersInternalResponse.FromString,
                 )
 
 
@@ -80,28 +80,28 @@ def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SignUp': grpc.unary_unary_rpc_method_handler(
                     servicer.SignUp,
-                    request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
-                    response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
+                    request_deserializer=api_dot_user__pb2.SignUpRequest.FromString,
+                    response_serializer=api_dot_user__pb2.SignUpResponse.SerializeToString,
             ),
             'SignIn': grpc.unary_unary_rpc_method_handler(
                     servicer.SignIn,
-                    request_deserializer=src_dot_api_dot_user__pb2.SignUpRequest.FromString,
-                    response_serializer=src_dot_api_dot_user__pb2.SignUpResponse.SerializeToString,
+                    request_deserializer=api_dot_user__pb2.SignUpRequest.FromString,
+                    response_serializer=api_dot_user__pb2.SignUpResponse.SerializeToString,
             ),
             'Profile': grpc.unary_unary_rpc_method_handler(
                     servicer.Profile,
-                    request_deserializer=src_dot_api_dot_common__pb2.Empty.FromString,
-                    response_serializer=src_dot_api_dot_common__pb2.UserProfile.SerializeToString,
+                    request_deserializer=api_dot_common__pb2.Empty.FromString,
+                    response_serializer=api_dot_common__pb2.UserProfile.SerializeToString,
             ),
             'GetUserInternal': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserInternal,
-                    request_deserializer=src_dot_api_dot_common__pb2.ById.FromString,
-                    response_serializer=src_dot_api_dot_common__pb2.UserProfile.SerializeToString,
+                    request_deserializer=api_dot_common__pb2.ById.FromString,
+                    response_serializer=api_dot_common__pb2.UserProfile.SerializeToString,
             ),
             'UsersInternal': grpc.unary_unary_rpc_method_handler(
                     servicer.UsersInternal,
-                    request_deserializer=src_dot_api_dot_user__pb2.UsersInternalRequest.FromString,
-                    response_serializer=src_dot_api_dot_user__pb2.UsersInternalResponse.SerializeToString,
+                    request_deserializer=api_dot_user__pb2.UsersInternalRequest.FromString,
+                    response_serializer=api_dot_user__pb2.UsersInternalResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -125,8 +125,8 @@ class UserService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/SignUp',
-            src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-            src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+            api_dot_user__pb2.SignUpRequest.SerializeToString,
+            api_dot_user__pb2.SignUpResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -142,8 +142,8 @@ class UserService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/SignIn',
-            src_dot_api_dot_user__pb2.SignUpRequest.SerializeToString,
-            src_dot_api_dot_user__pb2.SignUpResponse.FromString,
+            api_dot_user__pb2.SignUpRequest.SerializeToString,
+            api_dot_user__pb2.SignUpResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -159,8 +159,8 @@ class UserService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/Profile',
-            src_dot_api_dot_common__pb2.Empty.SerializeToString,
-            src_dot_api_dot_common__pb2.UserProfile.FromString,
+            api_dot_common__pb2.Empty.SerializeToString,
+            api_dot_common__pb2.UserProfile.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -176,8 +176,8 @@ class UserService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/GetUserInternal',
-            src_dot_api_dot_common__pb2.ById.SerializeToString,
-            src_dot_api_dot_common__pb2.UserProfile.FromString,
+            api_dot_common__pb2.ById.SerializeToString,
+            api_dot_common__pb2.UserProfile.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -193,7 +193,7 @@ class UserService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.UserService/UsersInternal',
-            src_dot_api_dot_user__pb2.UsersInternalRequest.SerializeToString,
-            src_dot_api_dot_user__pb2.UsersInternalResponse.FromString,
+            api_dot_user__pb2.UsersInternalRequest.SerializeToString,
+            api_dot_user__pb2.UsersInternalResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

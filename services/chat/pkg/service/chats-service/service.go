@@ -26,6 +26,7 @@ func (s *ChatServiceImpl) CreateChat(ctx context.Context, userOneId, userTwoId s
 	var userProfileTwo *proto.UserProfile
 	var err error
 	go func() {
+		wg.Add(1)
 		userProfileTwo, err = s.userServiceClient.GetUserInternal(ctx, &proto.ById{Id: userTwoId})
 		wg.Done()
 	}()
@@ -41,7 +42,7 @@ func (s *ChatServiceImpl) CreateChat(ctx context.Context, userOneId, userTwoId s
 		return chats_repository.UsersChat{}, err
 	}
 
-	chatId, err := s.chatsRepository.CreateChat(ctx, userOneId, userTwoId)
+	chatId, err := s.chatsRepository.CreateChat(ctx, userOneId, userProfileOne.Email, userTwoId, userProfileTwo.Email)
 	if err != nil {
 		return chats_repository.UsersChat{}, err
 	}
