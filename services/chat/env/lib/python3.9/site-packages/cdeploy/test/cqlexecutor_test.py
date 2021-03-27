@@ -1,0 +1,106 @@
+import unittest
+try:
+    from unittest import mock  # pylint: disable-msg=E0611
+except ImportError:
+    import mock
+
+from cdeploy.cqlexecutor import CQLExecutor
+
+
+class MigrationTests(unittest.TestCase):
+    def setUp(self):
+        self.session = mock.Mock()
+
+    def test_it_creates_the_table_if_not_existing(self):
+        CQLExecutor.init_table(self.session)
+        self.session.execute.assert_called_once_with("""
+            CREATE TABLE IF NOT EXISTS schema_migrations
+                    (type text, version int, PRIMARY KEY(type, version))
+                WITH COMMENT = 'Schema migration history'
+                AND CLUSTERING ORDER BY (version DESC)
+        """)
+
+    def test_it_selects_the_most_recent_migration(self):
+        row = []
+        self.session.execute = mock.Mock(return_value=row)
+
+        result = CQLExecutor.get_top_version(self.session)
+
+        self.assertEquals(row, result)
+        self.session.execute.assert_called_once_with(
+            'SELECT * FROM schema_migrations LIMIT 1'
+        )
+
+    def test_it_executes_the_migration_script(self):
+        CQLExecutor.execute(self.session, 'script')
+        self.session.execute.assert_called_once_with('script')
+
+    def test_it_executes_a_multi_line_migration_script(self):
+        CQLExecutor.execute(self.session, 'line1;\nline2;\n')
+        self.session.execute.assert_has_calls(
+            [mock.call('line1'), mock.call('line2')]
+        )
+
+    def test_it_multi_line_statements(self):
+        CQLExecutor.execute(
+            self.session,
+            'statement start\nmore statement\nend statement;\nstatement\n2'
+        )
+        self.session.execute.assert_has_calls([
+            mock.call('statement start more statement end statement'),
+            mock.call('statement 2')
+        ])
+
+    def test_it_ignores_comments(self):
+        CQLExecutor.execute(
+            self.session,
+            'line1;\n--comment\n//comment\n\t//comment\nline2'
+        )
+        self.session.execute.assert_has_calls([
+            mock.call('line1'),
+            mock.call('line2')
+        ])
+
+    def test_it_does_not_run_the_undo_section(self):
+        CQLExecutor.execute(
+            self.session,
+            'migration statement;\n--//@UNDO\nundo statement'
+        )
+        self.session.execute.assert_called_once_with('migration statement')
+
+    def test_it_updates_schema_migrations_with_the_migration_version(self):
+        CQLExecutor.add_schema_migration(self.session, 10)
+        self.session.execute.assert_called_once_with("""
+            INSERT INTO schema_migrations (type, version)
+                VALUES ('migration', 10)""")
+
+
+class UndoTests(unittest.TestCase):
+    def setUp(self):
+        self.session = mock.Mock()
+
+    def test_it_ignores_whitespace_and_other_text_following_undo_marker(self):
+        CQLExecutor.execute_undo(
+            self.session,
+            'migration statement;\n\t--//@UNDO  begin undo\nundo statement')
+        self.session.execute.assert_called_once_with('undo statement')
+
+    def test_it_runs_the_undo_section(self):
+        CQLExecutor.execute_undo(
+            self.session,
+            'migration statement;\n--//@UNDO\nundo statement')
+        self.session.execute.assert_called_once_with('undo statement')
+
+    def test_it_removes_the_most_recent_schema_migration_row(self):
+        CQLExecutor.get_top_version = mock.Mock(
+            return_value=[mock.Mock(version=5)]
+        )
+        CQLExecutor.rollback_schema_migration(self.session)
+        self.session.execute.assert_called_once_with("""
+            DELETE FROM schema_migrations
+                WHERE type = 'migration'
+                    AND version = 5""")
+
+
+if __name__ == '__main__':
+    unittest.main()

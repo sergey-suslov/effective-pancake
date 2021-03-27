@@ -11,7 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from api import common_pb2 as src_dot_api_dot_common__pb2
+from src.api import common_pb2 as src_dot_api_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z\006/proto',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12src/api/user.proto\x12\x04user\x1a\x14src/api/common.proto\"-\n\x0fJwtTokenPayload\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0b\n\x03ttl\x18\x02 \x01(\x05\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"8\n\x0eSignUpResponse\x12&\n\x07payload\x18\x01 \x01(\x0b\x32\x15.user.JwtTokenPayload\">\n\x14UsersInternalRequest\x12&\n\npagination\x18\x01 \x01(\x0b\x32\x12.common.Pagination\"D\n\x15UsersInternalResponse\x12+\n\x0e\x61vailableUsers\x18\x01 \x03(\x0b\x32\x13.common.UserProfile2\xf0\x01\n\x0bUserService\x12\x33\n\x06SignUp\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12\x33\n\x06SignIn\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12-\n\x07Profile\x12\r.common.Empty\x1a\x13.common.UserProfile\x12H\n\rUsersInternal\x12\x1a.user.UsersInternalRequest\x1a\x1b.user.UsersInternalResponseB\x08Z\x06/protob\x06proto3'
+  serialized_pb=b'\n\x12src/api/user.proto\x12\x04user\x1a\x14src/api/common.proto\"-\n\x0fJwtTokenPayload\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0b\n\x03ttl\x18\x02 \x01(\x05\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"8\n\x0eSignUpResponse\x12&\n\x07payload\x18\x01 \x01(\x0b\x32\x15.user.JwtTokenPayload\">\n\x14UsersInternalRequest\x12&\n\npagination\x18\x01 \x01(\x0b\x32\x12.common.Pagination\"D\n\x15UsersInternalResponse\x12+\n\x0e\x61vailableUsers\x18\x01 \x03(\x0b\x32\x13.common.UserProfile2\xa6\x02\n\x0bUserService\x12\x33\n\x06SignUp\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12\x33\n\x06SignIn\x12\x13.user.SignUpRequest\x1a\x14.user.SignUpResponse\x12-\n\x07Profile\x12\r.common.Empty\x1a\x13.common.UserProfile\x12\x34\n\x0fGetUserInternal\x12\x0c.common.ById\x1a\x13.common.UserProfile\x12H\n\rUsersInternal\x12\x1a.user.UsersInternalRequest\x1a\x1b.user.UsersInternalResponseB\x08Z\x06/protob\x06proto3'
   ,
   dependencies=[src_dot_api_dot_common__pb2.DESCRIPTOR,])
 
@@ -212,35 +212,35 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 JwtTokenPayload = _reflection.GeneratedProtocolMessageType('JwtTokenPayload', (_message.Message,), {
   'DESCRIPTOR' : _JWTTOKENPAYLOAD,
-  '__module__' : 'api.user_pb2'
+  '__module__' : 'src.api.user_pb2'
   # @@protoc_insertion_point(class_scope:user.JwtTokenPayload)
   })
 _sym_db.RegisterMessage(JwtTokenPayload)
 
 SignUpRequest = _reflection.GeneratedProtocolMessageType('SignUpRequest', (_message.Message,), {
   'DESCRIPTOR' : _SIGNUPREQUEST,
-  '__module__' : 'api.user_pb2'
+  '__module__' : 'src.api.user_pb2'
   # @@protoc_insertion_point(class_scope:user.SignUpRequest)
   })
 _sym_db.RegisterMessage(SignUpRequest)
 
 SignUpResponse = _reflection.GeneratedProtocolMessageType('SignUpResponse', (_message.Message,), {
   'DESCRIPTOR' : _SIGNUPRESPONSE,
-  '__module__' : 'api.user_pb2'
+  '__module__' : 'src.api.user_pb2'
   # @@protoc_insertion_point(class_scope:user.SignUpResponse)
   })
 _sym_db.RegisterMessage(SignUpResponse)
 
 UsersInternalRequest = _reflection.GeneratedProtocolMessageType('UsersInternalRequest', (_message.Message,), {
   'DESCRIPTOR' : _USERSINTERNALREQUEST,
-  '__module__' : 'api.user_pb2'
+  '__module__' : 'src.api.user_pb2'
   # @@protoc_insertion_point(class_scope:user.UsersInternalRequest)
   })
 _sym_db.RegisterMessage(UsersInternalRequest)
 
 UsersInternalResponse = _reflection.GeneratedProtocolMessageType('UsersInternalResponse', (_message.Message,), {
   'DESCRIPTOR' : _USERSINTERNALRESPONSE,
-  '__module__' : 'api.user_pb2'
+  '__module__' : 'src.api.user_pb2'
   # @@protoc_insertion_point(class_scope:user.UsersInternalResponse)
   })
 _sym_db.RegisterMessage(UsersInternalResponse)
@@ -256,7 +256,7 @@ _USERSERVICE = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=340,
-  serialized_end=580,
+  serialized_end=634,
   methods=[
   _descriptor.MethodDescriptor(
     name='SignUp',
@@ -289,9 +289,19 @@ _USERSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
+    name='GetUserInternal',
+    full_name='user.UserService.GetUserInternal',
+    index=3,
+    containing_service=None,
+    input_type=src_dot_api_dot_common__pb2._BYID,
+    output_type=src_dot_api_dot_common__pb2._USERPROFILE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
     name='UsersInternal',
     full_name='user.UserService.UsersInternal',
-    index=3,
+    index=4,
     containing_service=None,
     input_type=_USERSINTERNALREQUEST,
     output_type=_USERSINTERNALRESPONSE,

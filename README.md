@@ -62,6 +62,7 @@ created messages from queues.
 **Routes**
 
 - [ ] chats (gRPC)
+- [ ] chats/create (gRPC)
 - [ ] chats/:chatId/messages (gRPC)
 
 ### ChatCLI

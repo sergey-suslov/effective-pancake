@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatServiceClient interface {
 	GetAvailableUsers(ctx context.Context, in *GetAvailableUsersRequest, opts ...grpc.CallOption) (*GetAvailableUsersResponse, error)
+	CreateChat(ctx context.Context, in *CreateChatRequest, opts ...grpc.CallOption) (*CreateChatResponse, error)
 }
 
 type chatServiceClient struct {
@@ -38,11 +39,21 @@ func (c *chatServiceClient) GetAvailableUsers(ctx context.Context, in *GetAvaila
 	return out, nil
 }
 
+func (c *chatServiceClient) CreateChat(ctx context.Context, in *CreateChatRequest, opts ...grpc.CallOption) (*CreateChatResponse, error) {
+	out := new(CreateChatResponse)
+	err := c.cc.Invoke(ctx, "/user.ChatService/CreateChat", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChatServiceServer is the server API for ChatService service.
 // All implementations must embed UnimplementedChatServiceServer
 // for forward compatibility
 type ChatServiceServer interface {
 	GetAvailableUsers(context.Context, *GetAvailableUsersRequest) (*GetAvailableUsersResponse, error)
+	CreateChat(context.Context, *CreateChatRequest) (*CreateChatResponse, error)
 	mustEmbedUnimplementedChatServiceServer()
 }
 
@@ -52,6 +63,9 @@ type UnimplementedChatServiceServer struct {
 
 func (UnimplementedChatServiceServer) GetAvailableUsers(context.Context, *GetAvailableUsersRequest) (*GetAvailableUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAvailableUsers not implemented")
+}
+func (UnimplementedChatServiceServer) CreateChat(context.Context, *CreateChatRequest) (*CreateChatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateChat not implemented")
 }
 func (UnimplementedChatServiceServer) mustEmbedUnimplementedChatServiceServer() {}
 
@@ -84,6 +98,24 @@ func _ChatService_GetAvailableUsers_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChatService_CreateChat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateChatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatServiceServer).CreateChat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.ChatService/CreateChat",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatServiceServer).CreateChat(ctx, req.(*CreateChatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChatService_ServiceDesc is the grpc.ServiceDesc for ChatService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -95,7 +127,11 @@ var ChatService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetAvailableUsers",
 			Handler:    _ChatService_GetAvailableUsers_Handler,
 		},
+		{
+			MethodName: "CreateChat",
+			Handler:    _ChatService_CreateChat_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "src/api/chat.proto",
+	Metadata: "api/chat.proto",
 }

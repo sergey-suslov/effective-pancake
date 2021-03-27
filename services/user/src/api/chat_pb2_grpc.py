@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from api import chat_pb2 as src_dot_api_dot_chat__pb2
+from src.api import chat_pb2 as src_dot_api_dot_chat__pb2
 
 
 class ChatServiceStub(object):
@@ -15,10 +15,15 @@ class ChatServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetAvailableUsers = channel.unary_unary(
-            '/user.ChatService/GetAvailableUsers',
-            request_serializer=src_dot_api_dot_chat__pb2.GetAvailableUsersRequest.SerializeToString,
-            response_deserializer=src_dot_api_dot_chat__pb2.GetAvailableUsersResponse.FromString,
-        )
+                '/user.ChatService/GetAvailableUsers',
+                request_serializer=src_dot_api_dot_chat__pb2.GetAvailableUsersRequest.SerializeToString,
+                response_deserializer=src_dot_api_dot_chat__pb2.GetAvailableUsersResponse.FromString,
+                )
+        self.CreateChat = channel.unary_unary(
+                '/user.ChatService/CreateChat',
+                request_serializer=src_dot_api_dot_chat__pb2.CreateChatRequest.SerializeToString,
+                response_deserializer=src_dot_api_dot_chat__pb2.CreateChatResponse.FromString,
+                )
 
 
 class ChatServiceServicer(object):
@@ -30,38 +35,65 @@ class ChatServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CreateChat(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ChatServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'GetAvailableUsers': grpc.unary_unary_rpc_method_handler(
-            servicer.GetAvailableUsers,
-            request_deserializer=src_dot_api_dot_chat__pb2.GetAvailableUsersRequest.FromString,
-            response_serializer=src_dot_api_dot_chat__pb2.GetAvailableUsersResponse.SerializeToString,
-        ),
+            'GetAvailableUsers': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAvailableUsers,
+                    request_deserializer=src_dot_api_dot_chat__pb2.GetAvailableUsersRequest.FromString,
+                    response_serializer=src_dot_api_dot_chat__pb2.GetAvailableUsersResponse.SerializeToString,
+            ),
+            'CreateChat': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateChat,
+                    request_deserializer=src_dot_api_dot_chat__pb2.CreateChatRequest.FromString,
+                    response_serializer=src_dot_api_dot_chat__pb2.CreateChatResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'user.ChatService', rpc_method_handlers)
+            'user.ChatService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
+
  # This class is part of an EXPERIMENTAL API.
-
-
 class ChatService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def GetAvailableUsers(request,
-                          target,
-                          options=(),
-                          channel_credentials=None,
-                          call_credentials=None,
-                          insecure=False,
-                          compression=None,
-                          wait_for_ready=None,
-                          timeout=None,
-                          metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/user.ChatService/GetAvailableUsers',
-                                             src_dot_api_dot_chat__pb2.GetAvailableUsersRequest.SerializeToString,
-                                             src_dot_api_dot_chat__pb2.GetAvailableUsersResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            src_dot_api_dot_chat__pb2.GetAvailableUsersRequest.SerializeToString,
+            src_dot_api_dot_chat__pb2.GetAvailableUsersResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateChat(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/user.ChatService/CreateChat',
+            src_dot_api_dot_chat__pb2.CreateChatRequest.SerializeToString,
+            src_dot_api_dot_chat__pb2.CreateChatResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

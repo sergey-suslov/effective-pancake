@@ -21,6 +21,7 @@ type UserServiceClient interface {
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	SignIn(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	Profile(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UserProfile, error)
+	GetUserInternal(ctx context.Context, in *ById, opts ...grpc.CallOption) (*UserProfile, error)
 	UsersInternal(ctx context.Context, in *UsersInternalRequest, opts ...grpc.CallOption) (*UsersInternalResponse, error)
 }
 
@@ -59,6 +60,15 @@ func (c *userServiceClient) Profile(ctx context.Context, in *Empty, opts ...grpc
 	return out, nil
 }
 
+func (c *userServiceClient) GetUserInternal(ctx context.Context, in *ById, opts ...grpc.CallOption) (*UserProfile, error) {
+	out := new(UserProfile)
+	err := c.cc.Invoke(ctx, "/user.UserService/GetUserInternal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) UsersInternal(ctx context.Context, in *UsersInternalRequest, opts ...grpc.CallOption) (*UsersInternalResponse, error) {
 	out := new(UsersInternalResponse)
 	err := c.cc.Invoke(ctx, "/user.UserService/UsersInternal", in, out, opts...)
@@ -75,6 +85,7 @@ type UserServiceServer interface {
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	SignIn(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	Profile(context.Context, *Empty) (*UserProfile, error)
+	GetUserInternal(context.Context, *ById) (*UserProfile, error)
 	UsersInternal(context.Context, *UsersInternalRequest) (*UsersInternalResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
@@ -91,6 +102,9 @@ func (UnimplementedUserServiceServer) SignIn(context.Context, *SignUpRequest) (*
 }
 func (UnimplementedUserServiceServer) Profile(context.Context, *Empty) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Profile not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserInternal(context.Context, *ById) (*UserProfile, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInternal not implemented")
 }
 func (UnimplementedUserServiceServer) UsersInternal(context.Context, *UsersInternalRequest) (*UsersInternalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UsersInternal not implemented")
@@ -162,6 +176,24 @@ func _UserService_Profile_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUserInternal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ById)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserInternal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.UserService/GetUserInternal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserInternal(ctx, req.(*ById))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_UsersInternal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UsersInternalRequest)
 	if err := dec(in); err != nil {
@@ -200,10 +232,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_Profile_Handler,
 		},
 		{
+			MethodName: "GetUserInternal",
+			Handler:    _UserService_GetUserInternal_Handler,
+		},
+		{
 			MethodName: "UsersInternal",
 			Handler:    _UserService_UsersInternal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "src/api/user.proto",
+	Metadata: "api/user.proto",
 }

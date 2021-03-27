@@ -1,0 +1,34 @@
+syntax = "proto3";
+package user;
+
+option go_package = "/proto";
+
+import "api/common.proto";
+
+message Chat {
+  string id = 1;
+  common.UserProfile userOne = 2;
+  common.UserProfile userTwo = 3;
+}
+
+message GetAvailableUsersRequest {
+  common.Pagination pagination = 1;
+}
+
+message GetAvailableUsersResponse {
+  repeated common.UserProfile availableUsers = 1;
+}
+
+message CreateChatRequest {
+  string userOneId = 1;
+  string userTwoId = 2;
+}
+
+message CreateChatResponse {
+  Chat chat = 1;
+}
+
+service ChatService {
+  rpc GetAvailableUsers (GetAvailableUsersRequest) returns (GetAvailableUsersResponse);
+  rpc CreateChat (CreateChatRequest) returns (CreateChatResponse);
+}
