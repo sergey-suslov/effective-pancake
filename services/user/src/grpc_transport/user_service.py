@@ -35,6 +35,7 @@ class UserServiceGrpc(UserServiceServicer):
             return None
         return UserProfile(id=user._id, email=user.email)
 
+    @PublicMethod
     def UsersInternal(self, request, context):
         users = self.user_service.get_users(
             page=request.pagination.page or 0, per_page=request.pagination.perPage or 0)

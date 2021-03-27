@@ -9,6 +9,11 @@ import (
 
 type ChatServiceGrpc struct {
 	usersService users_service.UsersService
+	proto.UnimplementedChatServiceServer
+}
+
+func NewChatServiceGrpc(usersService users_service.UsersService) *ChatServiceGrpc {
+	return &ChatServiceGrpc{usersService: usersService}
 }
 
 func (s *ChatServiceGrpc) GetAvailableUsers(ctx context.Context, request *proto.GetAvailableUsersRequest) (*proto.GetAvailableUsersResponse, error) {
@@ -23,3 +28,5 @@ func (s *ChatServiceGrpc) GetAvailableUsers(ctx context.Context, request *proto.
 	}
 	return response, nil
 }
+
+func (s *ChatServiceGrpc) mustEmbedUnimplementedChatServiceServer() {}

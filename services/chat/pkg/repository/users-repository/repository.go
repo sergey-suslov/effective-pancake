@@ -29,7 +29,7 @@ func (r *UserRepositoryImpl) GetAvailableUsers(ctx context.Context, page, perPag
 	for i := range availableUsers {
 		userProfiles = append(userProfiles, UserProfile{Id: availableUsers[i].Id, Email: availableUsers[i].Email})
 	}
-	return []UserProfile{}, nil
+	return userProfiles, nil
 }
 
 func NewUserRepository(userServiceClient proto.UserServiceClient) UserRepository {

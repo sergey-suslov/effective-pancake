@@ -24,7 +24,7 @@ def serve():
         max_workers=10), interceptors=[JwtAuthInterceptor(jwt_service=jwt_service)])
     add_UserServiceServicer_to_server(
         UserServiceGrpc(auth_service=auth_service), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(f'[::]:{os.getenv("port", 50051)}')
     server.start()
     logging.info('Starting...')
     server.wait_for_termination()

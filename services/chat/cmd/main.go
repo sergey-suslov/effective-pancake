@@ -1,7 +1,6 @@
-package cmd
+package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -11,8 +10,9 @@ import (
 
 	"github.com/sergey-suslov/effective-pancake/api/proto"
 	users_repository "github.com/sergey-suslov/effective-pancake/pkg/repository/users-repository"
+	users_service "github.com/sergey-suslov/effective-pancake/pkg/service/users-service"
+	transport "github.com/sergey-suslov/effective-pancake/pkg/transport"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 )
 
 func main() {
@@ -22,7 +22,6 @@ func main() {
 		userServicePort    = fs.String("userServicePort", "50051", "Address of User service")
 		userServiceAddress = fs.String("userServiceAddress", "localhost", "Port of User service")
 		help               = fs.Bool("h", false, "Show help")
-		logDebug           = fs.Bool("debug", false, "Log debug info")
 	)
 	fs.Usage = usageFor(fs, os.Args[0]+" [flags] <a> <b>")
 	_ = fs.Parse(os.Args[1:])
@@ -36,10 +35,21 @@ func main() {
 	userServiceClient := proto.NewUserServiceClient(userServiceConnection)
 
 	userRepository := users_repository.NewUserRepository(userServiceClient)
+	userService := users_service.NewUserService(userRepository)
+	chatServiceGrpc := transport.NewChatServiceGrpc(userService)
+
+	lis, err := net.Listen("tcp", net.JoinHostPort("localhost", *port))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	var opts []grpc.ServerOption
+	grpcServer := grpc.NewServer(opts...)
+	proto.RegisterChatServiceServer(grpcServer, chatServiceGrpc)
+	grpcServer.Serve(lis)
 }
 
 func getGrpcConnectionUserService(addr, port string) *grpc.ClientConn {
-	conn, err := grpc.Dial(net.JoinHostPort(addr, port))
+	conn, err := grpc.Dial(net.JoinHostPort(addr, port), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalln("Failed to dial server:", err)
 	}
