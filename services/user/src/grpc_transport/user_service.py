@@ -12,6 +12,7 @@ class UserServiceGrpc(UserServiceServicer):
         super().__init__()
         self.user_service = auth_service
 
+    @PublicMethod
     def SignUp(self, request, context):
         (token, ttl) = self.user_service.sign_up(
             email=request.email, password=request.password)
