@@ -6,6 +6,8 @@ import (
 	"github.com/sergey-suslov/effective-pancake/api/proto"
 	chats_service "github.com/sergey-suslov/effective-pancake/pkg/service/chats-service"
 	users_service "github.com/sergey-suslov/effective-pancake/pkg/service/users-service"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 )
 
 type ChatServiceGrpc struct {
@@ -33,6 +35,9 @@ func (s *ChatServiceGrpc) GetAvailableUsers(ctx context.Context, request *proto.
 
 func (s *ChatServiceGrpc) CreateChat(ctx context.Context, request *proto.CreateChatRequest) (*proto.CreateChatResponse, error) {
 	usersChat, err := s.chatsService.CreateChat(ctx, request.GetUserOneId(), request.GetUserTwoId())
+	if err == chats_service.NoUserWithGivenId {
+		return nil, grpc.Errorf(codes.InvalidArgument, err.Error())
+	}
 	if err != nil {
 		return nil, err
 	}

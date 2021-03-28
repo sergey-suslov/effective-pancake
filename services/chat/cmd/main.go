@@ -48,7 +48,7 @@ func main() {
 	userService := users_service.NewUserService(userRepository)
 
 	chatsRepository := chats_repository.NewChatsRepository(userServiceClient, chatsSession)
-	chatsService := chats_service.NewChatService(chatsRepository, userServiceClient)
+	chatsService := chats_service.NewChatService(chatsRepository, userRepository)
 
 	chatServiceGrpc := transport.NewChatServiceGrpc(userService, chatsService)
 

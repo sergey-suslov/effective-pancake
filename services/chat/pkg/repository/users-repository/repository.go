@@ -13,10 +13,19 @@ type UserProfile struct {
 
 type UserRepository interface {
 	GetAvailableUsers(context.Context, int, int) ([]UserProfile, error)
+	GetUserProfileById(ctx context.Context, userId string) (UserProfile, error)
 }
 
 type UserRepositoryImpl struct {
 	userServiceClient proto.UserServiceClient
+}
+
+func (r *UserRepositoryImpl) GetUserProfileById(ctx context.Context, userId string) (UserProfile, error) {
+	userProfile, err := r.userServiceClient.GetUserInternal(ctx, &proto.ById{Id: userId})
+	if err != nil {
+		return UserProfile{}, err
+	}
+	return UserProfile{Id: userProfile.GetId(), Email: userProfile.GetEmail()}, nil
 }
 
 func (r *UserRepositoryImpl) GetAvailableUsers(ctx context.Context, page, perPage int) ([]UserProfile, error) {
