@@ -17,9 +17,11 @@ This app allows to communicate via chat.
 
 ## Technological Stack
 
-- Go
-- Python
+- Go (Chat)
+- Python (User)
+- Elexir (Chatting)
 - Cassandra
+- MongoDB
 - Linkerd
 - Kafka
 
@@ -42,9 +44,10 @@ and authorize the user by a JWT.
 
 **Routes**
 
-- [ ] sign-up (gRCP)
-- [ ] sign-in (gRPC)
-- [ ] profile (gRPC) - returns a user's profile with the number of chats
+- [X] sign-up (gRCP)
+- [X] sign-in (gRPC)
+- [X] profile (gRPC) - returns a user's profile with the number of chats
+- [X] users-internal (gRPC) - returns registered users
 
 ### Chatting
 
@@ -59,6 +62,7 @@ created messages from queues.
 **Routes**
 
 - [ ] chats (gRPC)
+- [ ] chats/create (gRPC)
 - [ ] chats/:chatId/messages (gRPC)
 
 ### ChatCLI

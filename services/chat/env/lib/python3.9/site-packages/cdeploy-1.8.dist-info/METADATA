@@ -1,0 +1,16 @@
+Metadata-Version: 2.0
+Name: cdeploy
+Version: 1.8
+Summary: A tool for managing Cassandra schema migrations
+Home-page: https://github.com/rackerlabs/cdeploy
+Author: David McHoull
+Author-email: dmchoull@gmail.com
+License: http://www.apache.org/licenses/LICENSE-2.0
+Keywords: cassandra,migrations
+Platform: UNKNOWN
+Requires-Dist: PyYAML
+Requires-Dist: cassandra-driver (>=3.0.0)
+
+UNKNOWN
+
+

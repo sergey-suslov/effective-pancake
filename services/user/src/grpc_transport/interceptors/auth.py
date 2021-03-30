@@ -3,10 +3,10 @@ import grpc
 from grpc_interceptor import ServerInterceptor
 from grpc_interceptor.exceptions import GrpcException
 from typing import *
-from src.common.custom_context import CustomContext
-from src.common.user_info import UserInfo
+from common.custom_context import CustomContext
+from common.user_info import UserInfo
 
-from src.services.jwt_service import JwtService
+from services.jwt_service import JwtService
 
 
 class JwtAuthInterceptor(ServerInterceptor):
@@ -23,6 +23,17 @@ class JwtAuthInterceptor(ServerInterceptor):
         method_name: str,
     ) -> Any:
         custom_context = CustomContext(context)
+
+        try:
+            if method.public == True:
+                return method(request, custom_context)
+        except GrpcException as e:
+            context.set_code(e.status_code)
+            context.set_details(e.details)
+            raise
+        except Exception as e:
+            pass
+
         try:
             (n, token) = context.invocation_metadata()[[
                 n[0] for n in context.invocation_metadata()].index('auth-token')]

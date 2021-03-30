@@ -1,7 +1,7 @@
 from typing import Optional
 import grpc
 
-from src.common.user_info import UserInfo
+from common.user_info import UserInfo
 
 
 class CustomContext(grpc.ServicerContext):
