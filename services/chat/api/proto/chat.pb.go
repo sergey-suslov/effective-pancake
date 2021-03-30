@@ -279,6 +279,108 @@ func (x *CreateChatResponse) GetChat() *Chat {
 	return nil
 }
 
+type GetChatsByUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Pagination *PaginationTimestamp `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Id         *ById                `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetChatsByUserRequest) Reset() {
+	*x = GetChatsByUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_chat_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetChatsByUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetChatsByUserRequest) ProtoMessage() {}
+
+func (x *GetChatsByUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_chat_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetChatsByUserRequest.ProtoReflect.Descriptor instead.
+func (*GetChatsByUserRequest) Descriptor() ([]byte, []int) {
+	return file_api_chat_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetChatsByUserRequest) GetPagination() *PaginationTimestamp {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *GetChatsByUserRequest) GetId() *ById {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+type GetChatsByUserResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Chats []*Chat `protobuf:"bytes,1,rep,name=chats,proto3" json:"chats,omitempty"`
+}
+
+func (x *GetChatsByUserResponse) Reset() {
+	*x = GetChatsByUserResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_chat_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetChatsByUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetChatsByUserResponse) ProtoMessage() {}
+
+func (x *GetChatsByUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_chat_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetChatsByUserResponse.ProtoReflect.Descriptor instead.
+func (*GetChatsByUserResponse) Descriptor() ([]byte, []int) {
+	return file_api_chat_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetChatsByUserResponse) GetChats() []*Chat {
+	if x != nil {
+		return x.Chats
+	}
+	return nil
+}
+
 var File_api_chat_proto protoreflect.FileDescriptor
 
 var file_api_chat_proto_rawDesc = []byte{
@@ -310,8 +412,19 @@ var file_api_chat_proto_rawDesc = []byte{
 	0x75, 0x73, 0x65, 0x72, 0x54, 0x77, 0x6f, 0x49, 0x64, 0x22, 0x34, 0x0a, 0x12, 0x43, 0x72, 0x65,
 	0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
 	0x1e, 0x0a, 0x04, 0x63, 0x68, 0x61, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0a, 0x2e,
-	0x75, 0x73, 0x65, 0x72, 0x2e, 0x43, 0x68, 0x61, 0x74, 0x52, 0x04, 0x63, 0x68, 0x61, 0x74, 0x32,
-	0xa4, 0x01, 0x0a, 0x0b, 0x43, 0x68, 0x61, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
+	0x75, 0x73, 0x65, 0x72, 0x2e, 0x43, 0x68, 0x61, 0x74, 0x52, 0x04, 0x63, 0x68, 0x61, 0x74, 0x22,
+	0x72, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x74, 0x73, 0x42, 0x79, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x0c, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x42, 0x79, 0x49, 0x64, 0x52,
+	0x02, 0x69, 0x64, 0x22, 0x3a, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x74, 0x73, 0x42,
+	0x79, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x20, 0x0a,
+	0x05, 0x63, 0x68, 0x61, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x75,
+	0x73, 0x65, 0x72, 0x2e, 0x43, 0x68, 0x61, 0x74, 0x52, 0x05, 0x63, 0x68, 0x61, 0x74, 0x73, 0x32,
+	0xf3, 0x01, 0x0a, 0x0b, 0x43, 0x68, 0x61, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
 	0x54, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x41, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x55,
 	0x73, 0x65, 0x72, 0x73, 0x12, 0x1e, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x41,
 	0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71,
@@ -321,8 +434,13 @@ var file_api_chat_proto_rawDesc = []byte{
 	0x68, 0x61, 0x74, 0x12, 0x17, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
 	0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x75,
 	0x73, 0x65, 0x72, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x08, 0x5a, 0x06, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4d, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61,
+	0x74, 0x73, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1b, 0x2e, 0x75, 0x73, 0x65,
+	0x72, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x74, 0x73, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47,
+	0x65, 0x74, 0x43, 0x68, 0x61, 0x74, 0x73, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x08, 0x5a, 0x06, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -337,31 +455,40 @@ func file_api_chat_proto_rawDescGZIP() []byte {
 	return file_api_chat_proto_rawDescData
 }
 
-var file_api_chat_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_api_chat_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_api_chat_proto_goTypes = []interface{}{
 	(*Chat)(nil),                      // 0: user.Chat
 	(*GetAvailableUsersRequest)(nil),  // 1: user.GetAvailableUsersRequest
 	(*GetAvailableUsersResponse)(nil), // 2: user.GetAvailableUsersResponse
 	(*CreateChatRequest)(nil),         // 3: user.CreateChatRequest
 	(*CreateChatResponse)(nil),        // 4: user.CreateChatResponse
-	(*UserProfile)(nil),               // 5: common.UserProfile
-	(*Pagination)(nil),                // 6: common.Pagination
+	(*GetChatsByUserRequest)(nil),     // 5: user.GetChatsByUserRequest
+	(*GetChatsByUserResponse)(nil),    // 6: user.GetChatsByUserResponse
+	(*UserProfile)(nil),               // 7: common.UserProfile
+	(*Pagination)(nil),                // 8: common.Pagination
+	(*PaginationTimestamp)(nil),       // 9: common.PaginationTimestamp
+	(*ById)(nil),                      // 10: common.ById
 }
 var file_api_chat_proto_depIdxs = []int32{
-	5, // 0: user.Chat.userOne:type_name -> common.UserProfile
-	5, // 1: user.Chat.userTwo:type_name -> common.UserProfile
-	6, // 2: user.GetAvailableUsersRequest.pagination:type_name -> common.Pagination
-	5, // 3: user.GetAvailableUsersResponse.availableUsers:type_name -> common.UserProfile
-	0, // 4: user.CreateChatResponse.chat:type_name -> user.Chat
-	1, // 5: user.ChatService.GetAvailableUsers:input_type -> user.GetAvailableUsersRequest
-	3, // 6: user.ChatService.CreateChat:input_type -> user.CreateChatRequest
-	2, // 7: user.ChatService.GetAvailableUsers:output_type -> user.GetAvailableUsersResponse
-	4, // 8: user.ChatService.CreateChat:output_type -> user.CreateChatResponse
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	7,  // 0: user.Chat.userOne:type_name -> common.UserProfile
+	7,  // 1: user.Chat.userTwo:type_name -> common.UserProfile
+	8,  // 2: user.GetAvailableUsersRequest.pagination:type_name -> common.Pagination
+	7,  // 3: user.GetAvailableUsersResponse.availableUsers:type_name -> common.UserProfile
+	0,  // 4: user.CreateChatResponse.chat:type_name -> user.Chat
+	9,  // 5: user.GetChatsByUserRequest.pagination:type_name -> common.PaginationTimestamp
+	10, // 6: user.GetChatsByUserRequest.id:type_name -> common.ById
+	0,  // 7: user.GetChatsByUserResponse.chats:type_name -> user.Chat
+	1,  // 8: user.ChatService.GetAvailableUsers:input_type -> user.GetAvailableUsersRequest
+	3,  // 9: user.ChatService.CreateChat:input_type -> user.CreateChatRequest
+	5,  // 10: user.ChatService.GetChatsByUserId:input_type -> user.GetChatsByUserRequest
+	2,  // 11: user.ChatService.GetAvailableUsers:output_type -> user.GetAvailableUsersResponse
+	4,  // 12: user.ChatService.CreateChat:output_type -> user.CreateChatResponse
+	6,  // 13: user.ChatService.GetChatsByUserId:output_type -> user.GetChatsByUserResponse
+	11, // [11:14] is the sub-list for method output_type
+	8,  // [8:11] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_api_chat_proto_init() }
@@ -431,6 +558,30 @@ func file_api_chat_proto_init() {
 				return nil
 			}
 		}
+		file_api_chat_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetChatsByUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_chat_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetChatsByUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -438,7 +589,7 @@ func file_api_chat_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_chat_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

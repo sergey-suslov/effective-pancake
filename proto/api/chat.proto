@@ -28,7 +28,17 @@ message CreateChatResponse {
   Chat chat = 1;
 }
 
+message GetChatsByUserRequest {
+  common.PaginationTimestamp pagination = 1;
+  common.ById id = 2;
+}
+
+message GetChatsByUserResponse {
+  repeated Chat chats = 1;
+}
+
 service ChatService {
   rpc GetAvailableUsers (GetAvailableUsersRequest) returns (GetAvailableUsersResponse);
   rpc CreateChat (CreateChatRequest) returns (CreateChatResponse);
+  rpc GetChatsByUserId (GetChatsByUserRequest) returns (GetChatsByUserResponse);
 }

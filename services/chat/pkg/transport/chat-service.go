@@ -49,3 +49,19 @@ func (s *ChatServiceGrpc) CreateChat(ctx context.Context, request *proto.CreateC
 		},
 	}, nil
 }
+
+func (s *ChatServiceGrpc) GetChatsByUserId(ctx context.Context, request *proto.GetChatsByUserRequest) (*proto.GetChatsByUserResponse, error) {
+	chats, err := s.chatsService.GetUserChats(ctx, request.GetId().GetId(), request.GetPagination().GetAfter(), int(request.GetPagination().GetPerPage()))
+	if err != nil {
+		return nil, err
+	}
+	chatsResponse := make([]*proto.Chat, 0, len(chats))
+	for i := range chats {
+		chatsResponse = append(chatsResponse, &proto.Chat{
+			Id:      chats[i].Id,
+			UserOne: &proto.UserProfile{Id: chats[i].ChatsForUsers[0].UserId, Email: chats[i].ChatsForUsers[0].UserEmail},
+			UserTwo: &proto.UserProfile{Id: chats[i].ChatsForUsers[1].UserId, Email: chats[i].ChatsForUsers[1].UserEmail},
+		})
+	}
+	return &proto.GetChatsByUserResponse{Chats: chatsResponse}, nil
+}
