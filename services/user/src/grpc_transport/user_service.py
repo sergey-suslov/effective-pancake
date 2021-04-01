@@ -41,7 +41,9 @@ class UserServiceGrpc(UserServiceServicer):
         user = self.user_service.profile(
             id=request.id)
         if not user:
-            return None
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_details('No user found')
+            return UserProfile()
         return UserProfile(id=user._id, email=user.email)
 
     @PublicMethod

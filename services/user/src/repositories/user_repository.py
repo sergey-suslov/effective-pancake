@@ -28,6 +28,8 @@ class UserRepository():
         return UserEntity(**created)
 
     def get_user_by_id(self, id: str) -> Optional[UserEntity]:
+        if not ObjectId.is_valid(id):
+            return None
         existing = self.client.db.users.find_one(
             {"_id": ObjectId(id)}, projection=['email'])
         if not existing:

@@ -32,7 +32,7 @@ class JwtAuthInterceptor(ServerInterceptor):
             context.set_details(e.details)
             raise
         except Exception as e:
-            pass
+            raise
 
         try:
             (n, token) = context.invocation_metadata()[[
