@@ -3,12 +3,14 @@ package user;
 
 option go_package = "/proto";
 
+import "google/protobuf/timestamp.proto";
 import "api/common.proto";
 
 message Chat {
   string id = 1;
   common.UserProfile userOne = 2;
   common.UserProfile userTwo = 3;
+  google.protobuf.Timestamp created = 4;
 }
 
 message GetAvailableUsersRequest {

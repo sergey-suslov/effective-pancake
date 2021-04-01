@@ -8,6 +8,7 @@ import (
 	users_service "github.com/sergey-suslov/effective-pancake/pkg/service/users-service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type ChatServiceGrpc struct {
@@ -46,6 +47,7 @@ func (s *ChatServiceGrpc) CreateChat(ctx context.Context, request *proto.CreateC
 			Id:      usersChat.Id,
 			UserOne: &proto.UserProfile{Id: usersChat.ChatsForUsers[0].UserId, Email: usersChat.ChatsForUsers[0].UserEmail},
 			UserTwo: &proto.UserProfile{Id: usersChat.ChatsForUsers[1].UserId, Email: usersChat.ChatsForUsers[1].UserEmail},
+			Created: timestamppb.New(usersChat.Created),
 		},
 	}, nil
 }
@@ -61,6 +63,7 @@ func (s *ChatServiceGrpc) GetChatsByUserId(ctx context.Context, request *proto.G
 			Id:      chats[i].Id,
 			UserOne: &proto.UserProfile{Id: chats[i].ChatsForUsers[0].UserId, Email: chats[i].ChatsForUsers[0].UserEmail},
 			UserTwo: &proto.UserProfile{Id: chats[i].ChatsForUsers[1].UserId, Email: chats[i].ChatsForUsers[1].UserEmail},
+			Created: timestamppb.New(chats[i].Created),
 		})
 	}
 	return &proto.GetChatsByUserResponse{Chats: chatsResponse}, nil

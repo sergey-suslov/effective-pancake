@@ -2,23 +2,26 @@ package chats_repository
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/gocql/gocql"
 	"github.com/sergey-suslov/effective-pancake/api/proto"
-	"github.com/sergey-suslov/effective-pancake/pkg/utils"
 )
+
+type TracerLog struct{}
+
+func (t TracerLog) Trace(traceId []byte) {
+}
 
 type Chat struct {
 	Id      string
-	Created string
+	Created time.Time
 }
 
 type ChatForUser struct {
 	UserId    string
 	ChatId    string
-	Created   string
+	Created   time.Time
 	UserEmail string
 }
 
@@ -61,34 +64,37 @@ func (r *ChatRepositoryImpl) CreateChat(ctx context.Context, userOneId, userOneE
 }
 
 func (r *ChatRepositoryImpl) GetChat(ctx context.Context, chatId string) (usersChat UsersChat, err error) {
-	var timestamp int64
-	err = r.chatsSession.Query("select * from chats.chats where id = ?", chatId).Scan(&usersChat.Chat.Id, &timestamp)
-	usersChat.Chat.Created = utils.ParseTimestamp(timestamp)
-	iter := r.chatsSession.Query("select * from chats.users_for_chats where chatid = ? limit 2", chatId).Iter()
+	err = r.chatsSession.Query("select id, created from chats.chats where id = ?", chatId).Scan(&usersChat.Chat.Id, &usersChat.Chat.Created)
+	iter := r.chatsSession.Query("select chatid, userid, useremail, created from chats.users_for_chats where chatid = ? limit 2", chatId).Iter().Scanner()
 
 	usersChat.ChatsForUsers = make([]ChatForUser, 0, 2)
 	var chatForUser ChatForUser
-	for iter.Scan(&chatForUser.ChatId, &chatForUser.UserId, &chatForUser.UserEmail, &timestamp) {
-		chatForUser.Created = utils.ParseTimestamp(timestamp)
+	for iter.Next() {
+		err := iter.Scan(&chatForUser.ChatId, &chatForUser.UserId, &chatForUser.UserEmail, &chatForUser.Created)
+		if err != nil {
+			return UsersChat{}, err
+		}
 		usersChat.ChatsForUsers = append(usersChat.ChatsForUsers, chatForUser)
 	}
 	return
 }
 
 func (r *ChatRepositoryImpl) getChatsForUserByUserId(ctx context.Context, userId string, afterTimestamp int64, perPage int) ([]ChatForUser, error) {
-	chatsIter := r.chatsSession.Query("select * from chats.chats_for_users where userid = ? and created < ? limit ?", userId, utils.ParseTimestamp(afterTimestamp), perPage).Iter()
+	chatsIter := r.chatsSession.Query("select chatid, userid, useremail, created from chats.chats_for_users where userid = ? and created < ? limit ?", userId, afterTimestamp, perPage).Iter().Scanner()
 	chatsForUser := make([]ChatForUser, 0, perPage)
-	var timestamp int64
 	var chatForUser ChatForUser
-	for chatsIter.Scan(&chatForUser.ChatId, &chatForUser.UserId, &chatForUser.UserEmail, chatForUser.Created) {
-		chatForUser.Created = time.Unix(timestamp, 0).Format(time.RFC3339)
+	for chatsIter.Next() {
+		err := chatsIter.Scan(&chatForUser.ChatId, &chatForUser.UserId, &chatForUser.UserEmail, &chatForUser.Created)
+		if err != nil {
+			return nil, err
+		}
 		chatsForUser = append(chatsForUser, chatForUser)
 	}
 	return chatsForUser, nil
 }
 
 func (r *ChatRepositoryImpl) getChatsForUserByChatIds(ctx context.Context, chatIds []string) ([]ChatForUser, error) {
-	chatsIter := r.chatsSession.Query("select * from chats.users_for_chats where chatid in ?", chatIds).Iter()
+	chatsIter := r.chatsSession.Query("select chatid, userid, useremail from chats.users_for_chats where chatid in ?", chatIds).Iter()
 	chatsForUser := make([]ChatForUser, 0, len(chatIds))
 	var chatForUser ChatForUser
 	for chatsIter.Scan(&chatForUser.ChatId, &chatForUser.UserId, &chatForUser.UserEmail) {

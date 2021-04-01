@@ -21,8 +21,8 @@ type ChatServiceImpl struct {
 }
 
 func (s *ChatServiceImpl) getUserProfile(ctx context.Context, userId string) (chan users_repository.UserProfile, chan error) {
-	userProfileC := make(chan users_repository.UserProfile)
-	errorC := make(chan error)
+	userProfileC := make(chan users_repository.UserProfile, 1)
+	errorC := make(chan error, 1)
 
 	go func() {
 		userProfile, err := s.userRepository.GetUserProfileById(ctx, userId)
