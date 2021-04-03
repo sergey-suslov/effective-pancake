@@ -10,6 +10,7 @@ import (
 
 	"github.com/gocql/gocql"
 	"github.com/sergey-suslov/effective-pancake/api/proto"
+	"github.com/sergey-suslov/effective-pancake/pkg/interceptors"
 	chats_repository "github.com/sergey-suslov/effective-pancake/pkg/repository/chats-repository"
 	users_repository "github.com/sergey-suslov/effective-pancake/pkg/repository/users-repository"
 	chats_service "github.com/sergey-suslov/effective-pancake/pkg/service/chats-service"
@@ -57,6 +58,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	var opts []grpc.ServerOption
+	opts = append(opts, grpc.ChainUnaryInterceptor(interceptors.AuthInterceptor))
 	grpcServer := grpc.NewServer(opts...)
 	proto.RegisterChatServiceServer(grpcServer, chatServiceGrpc)
 	grpcServer.Serve(lis)

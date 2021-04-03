@@ -2,10 +2,12 @@ package transport
 
 import (
 	"context"
+	"log"
 
 	"github.com/sergey-suslov/effective-pancake/api/proto"
 	chats_service "github.com/sergey-suslov/effective-pancake/pkg/service/chats-service"
 	users_service "github.com/sergey-suslov/effective-pancake/pkg/service/users-service"
+	"github.com/sergey-suslov/effective-pancake/pkg/utils"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/types/known/timestamppb"
