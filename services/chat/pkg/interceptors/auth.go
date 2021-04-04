@@ -2,7 +2,6 @@ package interceptors
 
 import (
 	"context"
-	"log"
 
 	"github.com/sergey-suslov/effective-pancake/pkg/utils"
 	"google.golang.org/grpc"
@@ -12,7 +11,6 @@ import (
 )
 
 func AuthInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-	log.Println("REQ", ctx.Value("auth-token"))
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, status.Errorf(codes.Unauthenticated, "Error while retrieving metadata")
