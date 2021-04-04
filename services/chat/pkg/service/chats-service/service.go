@@ -13,11 +13,16 @@ var NoUserWithGivenId error = errors.New("No user with given id")
 type ChatService interface {
 	CreateChat(ctx context.Context, userOneId, userTwoId string) (chats_repository.UsersChat, error)
 	GetUserChats(ctx context.Context, userId string, after int64, perPage int) ([]chats_repository.UsersChat, error)
+	GetMessagesByChat(ctx context.Context, chatId string, after int64, perPage int) ([]chats_repository.MessageForChat, error)
 }
 
 type ChatServiceImpl struct {
 	chatsRepository chats_repository.ChatsRepository
 	userRepository  users_repository.UserRepository
+}
+
+func NewChatService(chatsRepository chats_repository.ChatsRepository, usersRepository users_repository.UserRepository) ChatService {
+	return &ChatServiceImpl{chatsRepository: chatsRepository, userRepository: usersRepository}
 }
 
 func (s *ChatServiceImpl) getUserProfile(ctx context.Context, userId string) (chan users_repository.UserProfile, chan error) {
@@ -72,10 +77,10 @@ func (s *ChatServiceImpl) CreateChat(ctx context.Context, userOneId, userTwoId s
 	return usersChat, nil
 }
 
-func NewChatService(chatsRepository chats_repository.ChatsRepository, usersRepository users_repository.UserRepository) ChatService {
-	return &ChatServiceImpl{chatsRepository: chatsRepository, userRepository: usersRepository}
-}
-
 func (s *ChatServiceImpl) GetUserChats(ctx context.Context, userId string, after int64, perPage int) ([]chats_repository.UsersChat, error) {
 	return s.chatsRepository.GetUserChats(ctx, userId, after, perPage)
+}
+
+func (s *ChatServiceImpl) GetMessagesByChat(ctx context.Context, chatId string, after int64, perPage int) ([]chats_repository.MessageForChat, error) {
+	return s.chatsRepository.GetMessagesByChat(ctx, chatId, after, perPage)
 }

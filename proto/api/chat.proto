@@ -13,6 +13,13 @@ message Chat {
   google.protobuf.Timestamp created = 4;
 }
 
+message Message {
+  string chatId = 1;
+  string userId = 2;
+  string message = 3;
+  google.protobuf.Timestamp created = 4;
+}
+
 message GetAvailableUsersRequest {
   common.Pagination pagination = 1;
 }
@@ -39,8 +46,18 @@ message GetChatsByUserResponse {
   repeated Chat chats = 1;
 }
 
+message GetMessagesByChatRequest {
+  common.PaginationTimestamp pagination = 1;
+  common.ById id = 2;
+}
+
+message GetMessagesByChatResponse {
+  repeated Message messages = 1;
+}
+
 service ChatService {
   rpc GetAvailableUsers (GetAvailableUsersRequest) returns (GetAvailableUsersResponse);
   rpc CreateChat (CreateChatRequest) returns (CreateChatResponse);
   rpc GetChatsByUserId (GetChatsByUserRequest) returns (GetChatsByUserResponse);
+  rpc GetMessagesByChatId (GetMessagesByChatRequest) returns (GetMessagesByChatResponse);
 }

@@ -34,6 +34,7 @@ type ChatsRepository interface {
 	CreateChat(ctx context.Context, userOneId, userOneEmail, userTwoId, userTwoEmail string) (chatId string, err error)
 	GetChat(ctx context.Context, chatId string) (usersChat UsersChat, err error)
 	GetUserChats(ctx context.Context, userId string, afterTimestamp int64, perPage int) ([]UsersChat, error)
+	GetMessagesByChat(ctx context.Context, chatId string, afterTimestamp int64, perPage int) ([]MessageForChat, error)
 }
 
 type ChatRepositoryImpl struct {

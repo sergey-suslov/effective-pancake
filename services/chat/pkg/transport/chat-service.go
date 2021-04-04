@@ -2,12 +2,10 @@ package transport
 
 import (
 	"context"
-	"log"
 
 	"github.com/sergey-suslov/effective-pancake/api/proto"
 	chats_service "github.com/sergey-suslov/effective-pancake/pkg/service/chats-service"
 	users_service "github.com/sergey-suslov/effective-pancake/pkg/service/users-service"
-	"github.com/sergey-suslov/effective-pancake/pkg/utils"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -69,4 +67,21 @@ func (s *ChatServiceGrpc) GetChatsByUserId(ctx context.Context, request *proto.G
 		})
 	}
 	return &proto.GetChatsByUserResponse{Chats: chatsResponse}, nil
+}
+
+func (s *ChatServiceGrpc) GetMessagesByChatId(ctx context.Context, request *proto.GetMessagesByChatRequest) (*proto.GetMessagesByChatResponse, error) {
+	messages, err := s.chatsService.GetMessagesByChat(ctx, request.GetId().GetId(), request.GetPagination().GetAfter(), int(request.GetPagination().GetPerPage()))
+	if err != nil {
+		return nil, err
+	}
+	messagesResponse := make([]*proto.Message, 0, len(messages))
+	for i := range messages {
+		messagesResponse = append(messagesResponse, &proto.Message{
+			ChatId:  messages[i].ChatId,
+			UserId:  messages[i].UserId,
+			Message: messages[i].Message,
+			Created: timestamppb.New(messages[i].Created),
+		})
+	}
+	return &proto.GetMessagesByChatResponse{Messages: messagesResponse}, nil
 }
