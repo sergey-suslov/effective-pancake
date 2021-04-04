@@ -54,6 +54,10 @@ and authorize the user by a JWT.
 This service handles socket connections of users, receiving and routing their
 messages, and sends messages to queues to write them in a DB.
 
+**Socket**
+
+- [ ] new message posted - receive message via socket and post it into Kafka
+
 ### Chats
 
 This service handles the chat's CRUD, and messages CRUD including syncing newly
@@ -64,7 +68,10 @@ created messages from queues.
 - [X] chats (gRPC)
 - [X] chats/create (gRPC)
 - [X] chats/availableUsers (gRPC)
-- [ ] chats/:chatId/messages (gRPC)
+- [X] chats/:chatId/messages (gRPC)
+
+**Events**
+- [ ] new message posted (Kafka) - write to the DB
 
 ### ChatCLI
 
